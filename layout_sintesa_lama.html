@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>SINTESA - Pengelola</title>
+  <link rel="icon" type="image/x-icon" href="<?php echo $this->config->item('assets_url')."/img/logo.png"; ?>">
+  
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <!-- Icon Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  
+  <!-- Sweet Alert 3 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+  <!-- CSS Libraries -->
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="<?php echo $this->config->item("assets_url").'css/style.css'; ?>">
+  <link rel="stylesheet" href="<?php echo $this->config->item("assets_url").'css/components.css'; ?>">
+
+
+  <!-- CSS button datatables -->
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">  
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.6.2/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+  <style>
+    /* Untuk single select */
+.select2-container--bootstrap4 .select2-selection--single {
+    height: calc(2.25rem + 2px) !important;   /* tinggi sama dengan form-control */
+    padding: .375rem .75rem !important;       /* padding default form-control */
+    border: 1px solid #ced4da !important;     /* border Bootstrap 4 */
+    border-radius: .25rem !important;         /* radius Bootstrap 4 */
+}
+
+.select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
+    line-height: 1.5 !important;              /* tinggi teks */
+    color: #495057 !important;                /* warna teks Bootstrap 4 */
+}
+
+/* Untuk multiple select */
+.select2-container--bootstrap4 .select2-selection--multiple {
+    min-height: calc(2.25rem + 2px) !important;
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+    padding: .2rem .25rem !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    background-color: #007bff !important;   /* badge biru */
+    border: none !important;
+    color: #fff !important;
+    padding: 0 .5rem !important;
+    border-radius: .2rem !important;
+    margin-top: .2rem !important;
+}
+
+  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <form class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg">
+                <i class="bi bi-list"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none">
+                <i class="fas fa-search"></i>
+              </a>
+            </li>
+          </ul>
+        </form>
+        <ul class="navbar-nav navbar-right">
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+            <!-- <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1"> -->
+            <div class="d-sm-none d-lg-inline-block">Hi, <?php $ad = $this->session->userdata('admisi'); echo  $ad['nama'] ?></div></a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-title"></div>
+              <a href="<?php echo base_url('dashboard/profile/'.$ad['id_user']); ?>" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
+              </a>
+
+              <div class="dropdown-divider"></div>
+              <a href="<?php echo base_url('logout') ?>" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <div class="main-sidebar sidebar-style-2">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <img src="<?php echo $this->config->item('assets_url')."/img/logo.png"; ?>" width="30" class="rounded-circle mr-1"> 
+            <a href="<?php echo base_url('dashboard') ?>">SINTESA</a>
+          </div>
+          <div class="sidebar-brand sidebar-brand-sm">
+            <a href="<?php echo base_url('dashboard') ?>">
+              <!-- SINTESA -->
+              <img src="<?php echo $this->config->item('assets_url')."/img/logo.png"; ?>" width="30" class="rounded-circle">
+            </a>
+          </div>
+          <ul class="sidebar-menu">
+            <li  class="<?php echo ($this->uri->segment(1) == 'dashboard') ? 'active' : ''; ?>">
+              <a class="nav-link" href="<?php echo base_url('dashboard') ?>">
+                <i class="bi bi-house"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li  class="<?php echo ($this->uri->segment(1) == 'lapo') ? 'active' : ''; ?>">
+              <a class="nav-link" href="<?php echo base_url('lapo') ?>">
+                <i class="bi bi-file-pdf"></i> <span>Laporan Progres Tesis</span>
+              </a>
+            </li>            
+            <?php $a = ['dosen','mhs','lampiran','prodi','topik','konversi','sesi','makul','ruangan','template','sekarang'] ?>
+            <li class="<?php echo in_array($this->uri->segment(1), $a) ? "active" : "" ?>">
+              <a href="<?php echo base_url("dosen") ?>" class="nav-link">
+                <i class="bi bi-database"></i> <span>Master Data</span>
+              </a>
+            </li>
+            
+            
+
+
+
+
+
+            <li class="<?php echo ($this->uri->segment(1) == 'tesis') ? 'active' : ''; ?>">
+              <a class="nav-link" href="<?php echo base_url('tesis/diajukan') ?>">
+                <i class="bi bi-pencil-square"></i> 
+                <span>Pendaftaran Judul Tesis</span>
+                <?php if (count(tampil_tesis_status("diajukan")) > 0 || count(tampil_tesis_status("ubahdosen")) > 0): ?>
+                <i class="bi bi-exclamation-triangle text-danger"></i>
+              <?php endif ?>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'jadwal') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('jadwal') ?>">
+              <i class="bi bi-calendar"></i> <span>Jadwal Dosen</span>
+            </a>
+          </li>
+
+
+
+          <li class="<?php echo ($this->uri->segment(1) == 'bimbingan') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('bimbingan') ?>">
+              <i class="bi bi-megaphone"></i> <span>Bimbingan Tesis</span>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'sempro') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('sempro/diajukan') ?>">
+              <i class="bi bi-play"></i> <span>Seminar Proposal</span>
+              <?php if (count(tampil_sempro_status("diajukan")) > 0): ?>
+                <i class="bi bi-exclamation-triangle text-danger"></i>
+              <?php endif ?>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'seminar') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('seminar') ?>">
+              <i class="bi bi-calendar-check"></i> <span>Jadwal Seminar</span>
+            </a>
+          </li>
+
+
+          <li class="<?php echo ($this->uri->segment(1) == 'paper') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('paper') ?>">
+              <i class="bi bi-file-pdf"></i> <span>Informatics Seminar</span>
+              <?php if (count(tampil_paper_status("diajukan")) > 0): ?>
+                <i class="bi bi-exclamation-triangle text-danger"></i>
+              <?php endif ?>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'shpt') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('shpt/diajukan') ?>">
+              <i class="bi bi-play-fill"></i> <span>SHPT</span>
+              <?php if (count(tampil_shpt_status("diajukan")) > 0): ?>
+                <i class="bi bi-exclamation-triangle text-danger"></i>
+              <?php endif ?>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'ut') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('ut/diajukan') ?>">
+              <i class="bi bi-play-circle"></i> <span>Ujian Tesis </span>
+              <?php if (count(tampil_ut_status("diajukan")) > 0): ?>
+                <i class="bi bi-exclamation-triangle text-danger"></i>
+              <?php endif ?>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'laporan') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('laporan') ?>">
+              <i class="bi bi-graph-up-arrow"></i> 
+              <span>Laporan</span>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'nilai') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('nilai') ?>">
+              <i class="bi bi-graph-up-arrow"></i> 
+              <span>Nilai</span>
+            </a>
+          </li>
+
+          <li class="<?php echo ($this->uri->segment(1) == 'alih') ? 'active' : ''; ?>">
+            <a class="nav-link" href="<?php echo base_url('alih') ?>">
+              <i class="bi bi-airplane"></i> 
+              <span>Alih Jalur</span>
+
+            <?php if (count(tampil_alih_status("diajukan")) > 0 || count(tampil_alih_status("ubahdosen")) > 0): ?>
+            <i class="bi bi-exclamation-triangle text-danger"></i>
+          <?php endif ?>
+            </a>
+        </li>
+
+        <li class="<?php echo ($this->uri->segment(1) == 'krs') ? 'active' : ''; ?>">
+          <a class="nav-link" href="<?php echo base_url('krs') ?>">
+            <i class="bi bi-tags"></i> 
+            <span>Cek KRS</span>
+          </a>
+        </li>
+
+        <li class="<?php echo ($this->uri->segment(1) == 'skb') ? 'active' : ''; ?>">
+          <a class="nav-link" href="<?php echo base_url('skb') ?>">
+            <i class="bi bi-file-pdf"></i> 
+            <span>SK Membimbing</span>
+          </a>
+        </li>
+
+        <li class="<?php echo ($this->uri->segment(1) == 'skm') ? 'active' : ''; ?>">
+          <a class="nav-link" href="<?php echo base_url('skm') ?>">
+            <i class="bi bi-file-pdf"></i> 
+            <span>SK Menguji</span>
+          </a>
+        </li>
+
+        <li class="<?php echo ($this->uri->segment(1) == 'rekap') ? 'active' : ''; ?>">
+          <a class="nav-link" href="<?php echo base_url('rekap') ?>">
+            <i class="bi bi-file-pdf"></i> 
+            <span>Rekapitulasi</span>
+          </a>
+        </li>
+
+
+
+      </ul>
+
+
+    </aside>
+  </div>
+
+  <?php if ($this->session->flashdata('pesan_sukses')): ?>
+
+    <script>
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "<?= $this->session->flashdata('pesan_sukses') ?>"
+      });
+    </script>
+
+  <?php endif ?>
+
+  <?php if ($this->session->flashdata('pesan_gagal')): ?>
+
+    <script>
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "<?= $this->session->flashdata('pesan_gagal') ?>"
+      });
+    </script>
+
+  <?php endif ?>
+
+<footer class="main-footer">
+        <div class="footer-left">
+          Copyright &copy; 2024 <div class="bullet"></div> <a href="">Universitas Amikom Yogyakarta</a>
+        </div>
+        <div class="footer-right">
+          
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- General JS Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="<?php echo $this->config->item("assets_url").'js/stisla.js'; ?>"></script>
+  
+
+  <!-- Datatables JS -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.jszip/3.10.1/jszip.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var table = $('#datatables').DataTable( {
+      stateSave: true,
+      lengthChange: false,
+      buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    });
+    table.buttons().container().appendTo( '#datatables_wrapper .col-md-6:eq(0)' );
+  });
+  $(document).ready(function() {
+    var table = $('#datatables2').DataTable( {
+      stateSave: true,
+      lengthChange: false,
+      buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    });
+    table.buttons().container().appendTo( '#datatables2_wrapper .col-md-6:eq(0)' );
+  });
+  $(document).ready(function() {
+    var table = $('#datatables3').DataTable( {
+      stateSave: true,
+      lengthChange: false,
+      buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    });
+    table.buttons().container().appendTo( '#datatables3_wrapper .col-md-6:eq(0)' );
+  });
+  $(document).ready(function() {
+    var table = $('#datatables4').DataTable( {
+      lengthChange: false,
+      stateSave: true,
+      buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    });
+    table.buttons().container().appendTo( '#datatables4_wrapper .col-md-6:eq(0)' );
+  });
+  $(document).ready(function() {
+    var table = $('#datatables5').DataTable( {
+      lengthChange: false,
+      stateSave: true,
+      buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    });
+    table.buttons().container().appendTo( '#datatables5_wrapper .col-md-6:eq(0)' );
+  });
+
+</script>
+  
+  <!-- Template JS File -->
+  <script src="<?php echo $this->config->item("assets_url").'js/scripts.js'; ?>"></script>
+  <script src="<?php echo $this->config->item("assets_url").'js/custom.js'; ?>"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+$(document).ready(function() {
+  $('.select2bs4').select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih --",
+    allowClear: true
+  });
+});
+</script>
+</body>
+</html>
